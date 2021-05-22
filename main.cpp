@@ -8,6 +8,7 @@
 #include <iostream>
 #include <ctime>
 #include <string>
+#include <limits>
 
 using namespace std ;
 
@@ -276,26 +277,6 @@ bool shoot (team player[2],int first, int second)
     }
 }
 
-//void selecting_team (team &player_team)
-//{
-//
-//    int input ;
-//    cin >> input ;
-//    if ( input==6)
-//        cin >> player_team ;
-//    else
-//        player_team.complete(input);
-//}
-//void selecting_team ()
-//{
-//    cout << "Chose the first team (player 1)\n";
-//    int input ;
-//    cin >> input ;
-//    if ( input==6)
-//        cin >> player_team ;
-//    else
-//        player_team.complete(input);
-//}
 
 istream &operator >> (istream &input , team &player_team )
 {
@@ -326,18 +307,19 @@ int main()
     int round ;
     char input ;
     char movement ;
+    string entre ;
     
     team player_team[2];// player 1 : player_team[0] , player 2 : player_team[1]
     
     // explaining the game
-    cout << "\n\t\t\tWELCOME TO GEMBALL\n\nTo receive instruction press 9 otherwise press any key..\n\n";
-    
+    cout << "\n\t\t\tWELCOME TO GEMBALL\n\nTo receive instruction press 9 otherwise press any key and entre ..\n";
     cin >> menu ;
-
     if (menu == "9")
     {
         cout << "-----\n";// the instuction
-        cin >> menu ;
+        cout << "press entre to continue\n";
+        cin.ignore();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n' );
     }
     do
     {
@@ -368,9 +350,9 @@ int main()
         else
             player_team[1].complete(input_team_num);
         
-        
-        cout << "Press entre to START\n";
-        cin >> menu ;
+        cin.ignore();
+        cout << "Press entre to START\n" ;
+        cin.ignore(numeric_limits<streamsize>::max(), '\n' );
         
         if (rand()%2 == 0)
         {
@@ -388,7 +370,7 @@ int main()
         }
         do
         {
-            for ( round = 1 ; round <= 4 ; round ++ )
+            for ( round = 1 ; round <= 10 ; round ++ )
             {
                 cout << "ROUND " << round << endl ;
                 
@@ -398,15 +380,15 @@ int main()
                 cout <<"player1 ("<< player_team[0].name_getter()<<") got "<<player_team[0].GEM_getter()<<" gems \n";
                 cout <<"player2 ("<< player_team[1].name_getter()<<") got "<<player_team[1].GEM_getter()<<" gems \n";
                 
-                    for ( stage = 1 ; stage<=4 ; stage++ )
+                    for ( stage = 1 ; stage<=6 ; stage++ )
                     {
-                        cout << "stage : "<< stage << endl;
+                        cout << "\t\t\tstage : "<< stage << endl;
                         if (stage == 4)// shoooot stage :)
                         {
                             cout << player_team[first].name_getter()<<" turn \t\t\t\t"<<player_team[first].GEM_getter();
-                            cout << "\n--------------------------------\n";
+                            cout << "\n---------------------------------------\n";
                             cout << "Press < S > to shoot.. \n";
-                            cout << "--------------------------------\n";
+                            cout << "-----------------------------------------\n";
                             
                             cin >> movement ;// first player move
                             if ( movement == 'S' || movement == 's' )
@@ -423,9 +405,9 @@ int main()
                             break;
                         }
                         cout << player_team[first].name_getter()<<" turn \t\t\t\t"<<player_team[first].GEM_getter();
-                        cout << "\n--------------------------------\n";
+                        cout << "\n-----------------------------------------\n";
                         cout << "Press < P > to pass or < D > to dribble \n";
-                        cout << "--------------------------------\n";
+                        cout << "-----------------------------------------\n";
                         
                         cin >> movement ;// first player move
                         
@@ -434,7 +416,7 @@ int main()
                             if( pass(player_team,first,second) == false )
                             {
                                 change(&first,&second);
-        //                        stage = 1 ;
+                                stage -- ;
                             }
                         }
                         else if (movement == 'D' || movement == 'd')
@@ -442,7 +424,7 @@ int main()
                             if( dribble(player_team,first,second) == false )
                             {
                                 change(&first,&second);
-        //                        stage = 1 ;
+                                stage -- ;
                             }
                         }
                         
