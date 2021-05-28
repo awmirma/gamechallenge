@@ -6,6 +6,8 @@
 //
 // changes by javads on 5/27/21.
 
+//// changes by javads on 5/27/21.
+
 #include <iostream>
 #include <ctime>
 #include <string>
@@ -201,6 +203,7 @@ bool pass (team player[2],int first, int second)
     
     player[first].GEMS-=player[first].move.pass_GEM;
     if(player[first].GEMS < 0)
+<<<<<<< HEAD:sourcecode.cpp
     {
         cout << "you cannot pass :(  \n\n" ;////
         player[second].GEMS+=player[second].move.pass_GEM;
@@ -235,6 +238,42 @@ bool pass (team player[2],int first, int second)
             }
         }
     }
+=======
+	{
+    	cout << "you cannot pass :(  \n\n" ;////
+	    player[second].GEMS+=player[second].move.pass_GEM;
+	    return false ;
+	}
+	else
+	{
+	    cout << player[second].name<<"'s turn \t\t\t\t"<<player[second].GEMS;////
+	    cout << "\n--------------------------------\n";
+	    cout << "press < T > key to tackle or < L > to let ball go ...\n";
+	    cout << "--------------------------------\n";
+	    
+	    cin >> react_move ;
+	    
+	    if (react_move=='L'||react_move=='l')
+	        return true ;
+	    else
+	    {
+	        player[second].GEMS-=player[second].move.tackle_GEM;
+	        if(player[second].GEMS < 0){
+	        	cout << "you cannot tackle :(  \n\n" ;////
+	        	player[second].GEMS+=player[second].move.tackle_GEM;
+	        	return true ;
+			}
+			else////
+			{
+	        accuracy = (player[first].move.pass_accuracy/2+(100-player[second].move.tackle_accuracy)/2);// change it ..
+	        if (rand()%100<=accuracy)
+	            return true ;
+	        else
+	            return false ;
+	        }
+	    }
+	}
+>>>>>>> d54f781b1bcbcc0c1a8d193bfd26f571cb6fdfcb:main.cpp
 }
 
 bool dribble (team player[2],int first, int second)
@@ -244,6 +283,7 @@ bool dribble (team player[2],int first, int second)
     
     player[first].GEMS-=player[first].move.dribble_GEM;
     if(player[first].GEMS < 0)
+<<<<<<< HEAD:sourcecode.cpp
     {
         cout << "you cannot dribble :(  \n\n" ;
         player[first].GEMS+=player[first].move.dribble_GEM;
@@ -276,6 +316,40 @@ bool dribble (team player[2],int first, int second)
             }
         }
     }
+=======
+    {
+    	cout << "you cannot dribble :(  \n\n" ;
+    	player[first].GEMS+=player[first].move.dribble_GEM;
+    	return false ;
+    	
+	}
+	else
+	{
+	    cout << player[1].name<<"'s turn \t\t\t\t gems = "<<player[second].GEMS;////
+	    cout << "\n--------------------------------\n";
+	    cout << "press < T > key to tackle or < L > to let ball go ...\n";
+	    cout << "--------------------------------\n";
+	    cin >> react_move ;
+	    if (react_move=='L'||react_move=='l')
+	        return true ;
+	    else
+	    {
+	        player[second].GEMS-=player[second].move.tackle_GEM;
+	        if(player[second].GEMS < 0){
+	        	cout << "you cannot tackle :(  \n\n" ;////
+	        	return true ;
+			}
+			else
+			{
+		        accuracy = (player[first].move.dribble_accuracy/2+(100-player[second].move.tackle_accuracy)/2);// change it ..
+		        if (rand()%100<=accuracy)
+		            return true ;
+		        else
+		            return false ;
+	    	}
+		}
+	}
+>>>>>>> d54f781b1bcbcc0c1a8d193bfd26f571cb6fdfcb:main.cpp
 }
 
 bool shoot (team player[2],int first, int second)
@@ -287,6 +361,7 @@ bool shoot (team player[2],int first, int second)
     
     if(player[first].GEMS < 0)
     {
+<<<<<<< HEAD:sourcecode.cpp
         cout << "you cannot shoot :( \n\n" ;
         player[first].GEMS+=player[first].move.shoot_GEM;
         return false;
@@ -328,6 +403,49 @@ bool shoot (team player[2],int first, int second)
                 return false ;
         }
     }
+=======
+    	cout << "you cannot shoot :( \n\n" ;
+    	player[first].GEMS+=player[first].move.shoot_GEM;
+    	return false;
+	}
+    else
+	{
+	    cout << player[second].name<<"'s turn \t\t\t\t gems = "<<player[second].GEMS;
+	    cout << "\n--------------------------------\n";
+	    cout << "press < S > key to save ...\n";
+	    cout << "--------------------------------\n";
+	    
+	    cin >> react_move ;
+	    
+	    if (react_move=='S'||react_move=='s')
+	    {	    	
+	        player[second].GEMS-=player[second].move.save_GEM;
+	        if(player[second].GEMS < 0)
+			{
+	        	player[second].GEMS+=player[second].move.save_GEM;
+	        	cout << "you cannot save :(  \n\n" ;
+	        	  if (rand()%100<=(player[first].move.shoot_accuracy))
+		            return true ;
+		        else
+		            return false ;
+		    }
+	        accuracy = (player[first].move.shoot_accuracy/2+(100-player[second].move.save_accuracy)/2);// change it ..
+	        
+	        
+	        if (rand()%100<=accuracy)
+	            return true ;
+	        else
+	            return false ;
+	    }
+	    else
+	    {
+	        if (rand()%100<=(player[first].move.shoot_accuracy))
+	            return true ;
+	        else
+	            return false ;
+	    }
+	}
+>>>>>>> d54f781b1bcbcc0c1a8d193bfd26f571cb6fdfcb:main.cpp
 }
 
 
@@ -395,6 +513,7 @@ int main()
         else
             player_team[0].complete(input_team_num);
         
+<<<<<<< HEAD:sourcecode.cpp
         
         cout << "Choose the second team (player 2)\n";
         cin >> input_team_num ;
@@ -403,6 +522,16 @@ int main()
         else
             player_team[1].complete(input_team_num);
         
+=======
+        
+        cout << "Choose the second team (player 2)\n";
+        cin >> input_team_num ;
+        if ( input_team_num ==6)
+            cin >> player_team[1] ;
+        else
+            player_team[1].complete(input_team_num);
+        
+>>>>>>> d54f781b1bcbcc0c1a8d193bfd26f571cb6fdfcb:main.cpp
         cin.ignore();
         cout << "Press entre to START\n" ;
         cin.ignore(numeric_limits<streamsize>::max(), '\n' );
@@ -469,6 +598,7 @@ int main()
                         {
                             if( pass(player_team,first,second) == false )
                             {
+<<<<<<< HEAD:sourcecode.cpp
                                 change(&first,&second);
                             }
                         }
@@ -486,6 +616,25 @@ int main()
                             change(&first,&second);
                             }
                         }
+=======
+                                change(&first,&second);                             
+                            }
+                        }
+                        else
+						{ 
+							if (movement == 'D' || movement == 'd')
+	                        {
+	                            if( dribble(player_team,first,second) == false )
+	                            {
+	                                change(&first,&second);                                
+	                            }
+	                        }
+	                        else
+							{
+	                        change(&first,&second);	
+							}
+	                    }                       
+>>>>>>> d54f781b1bcbcc0c1a8d193bfd26f571cb6fdfcb:main.cpp
                     }
                 //change(&first,&second);
                 
