@@ -1,0 +1,8 @@
+
+First, the system shows the players a list of their teams along with the average strength of each team, and if the players were not interested in choosing those teams, they can use personalized teams by the system that have three teams strong in attack, strong in defense or normal mode. They are free to choose and define their team name themselves.
+
+Both teams will be awarded 10 jams in the first round. Coins are tossed and one of the teams holding the ball in the first round must start by paying the jam (pass or dribble) and then it is the turn of the second player to answer (tackle or reject) and when Reach stage 6, whoever has the ball can shoot and the other must save the ball.The result is then display. The players play 4 times and at the end of the system shows them the sum of their goals and announces the winner.
+
+The system then asks players if they want to play the same game again, change their teams or end the game.
+
+Good luck
