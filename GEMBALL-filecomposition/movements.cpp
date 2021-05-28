@@ -1,38 +1,39 @@
 
-#include "movements.h"
-#include <iostream>
-using namespace std;
 
-void movements::default_accuracy (int option)
+#ifndef movements_h
+#define movements_h
+#include <iostream>
+using namespace std ;
+
+class team ; // each team in the game
+class movements // movements of the game including pass , dribble , tackle , shoot and save
 {
-    switch (option)
-    {
-        case 1 :// exellent at attack
-            shoot_accuracy = 86 ;
-            pass_accuracy = 62 ;
-            tackle_accuracy = 79 ;
-            dribble_accuracy = 89 ;
-            save_accuracy = 87 ;
-            
-            break;
-            
-        case 2 :// exellent at defend
-            shoot_accuracy = 89 ;
-            pass_accuracy = 66 ;
-            tackle_accuracy = 90 ;
-            dribble_accuracy = 80 ;
-            save_accuracy = 91 ;
-            break;
-            
-        case 3 :// good at both
-            shoot_accuracy = 88 ;
-            pass_accuracy = 64 ;
-            tackle_accuracy = 85 ;
-            dribble_accuracy = 84 ;
-            save_accuracy = 89 ;
-            break;
-            
-        default:
-            break;
-    }
-}
+    friend class team ;
+    friend istream &operator >> (istream &input , team &player_team ) ; // to enter the team that the player tends to make ( the team 's name and its authority )
+    friend bool pass_and_tackle (team player[2],int first, int second); // used for pass and tackle
+    friend bool dribble_and_tackle (team player[2],int first, int second); // used for dribble and tackle
+    friend bool shoot_and_save (team player[2],int first, int second) ; // used for shoot and save
+    public :
+    
+    void default_accuracy (int ); // the accuracy of the team made by player
+    
+    private :
+    
+    // accuracy    // probability of the movements veracity ( per 100 )
+    int shoot_accuracy ;
+    int pass_accuracy ;
+    int tackle_accuracy ;
+    int dribble_accuracy ;
+    int save_accuracy ;
+    
+    // GEM     // the score that is substracted by the each movement
+    int shoot_GEM = 3 ;
+    int pass_GEM = 1 ;
+    int tackle_GEM = 2 ;
+    int dribble_GEM = 2 ;
+    int save_GEM = 3 ;
+    
+};
+
+
+#endif /* movements_h */
