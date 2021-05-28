@@ -1,13 +1,16 @@
-//
+
 //  main.cpp
 //  gamechallenge
 //
 //  Created by amir  on 5/13/21.
 //
+// changes by javads on 5/27/21.
 
 #include <iostream>
 #include <ctime>
 #include <string>
+#include <limits>
+#include <cstdlib>
 
 using namespace std ;
 
@@ -89,64 +92,62 @@ class team
         return first ;
     }
     
+    team ()
+    {
+//        name = "";
+        GEMS = 0 ;
+        goals  = 0;
+        move.shoot_accuracy = 0 ;
+        move.pass_accuracy = 0 ;
+        move.tackle_accuracy = 0 ;
+        move.dribble_accuracy = 0 ;
+        move.save_accuracy = 0 ;
+    }
     
     void complete (int team_number)
     {
         switch ( team_number )
         {
             case 1 ://team 1 (REAL MADRID)
-            {
-//                name_setter("REAL MADRID") ;
-                name = "REAL MADRID";
+                name = "REAL MADRID" ;
                 move.shoot_accuracy = 88 ;
                 move.pass_accuracy = 65 ;
                 move.tackle_accuracy = 93 ;
                 move.dribble_accuracy = 80 ;
                 move.save_accuracy = 89 ;
                 break;
-            }
             case 2 ://team 2 (FC BARCELONA)
-            {
-//                name_setter("FC BARCELONA");
-                name = "FC BARCELONA";
+                name = "FC BARCELONA" ;
                 move.shoot_accuracy = 82 ;
                 move.pass_accuracy = 66 ;
                 move.tackle_accuracy = 72 ;
                 move.dribble_accuracy = 85 ;
                 move.save_accuracy = 90 ;
                 break;
-            }
             case 3 ://team 3 (juventus)
-            {
-                name = "juventus";
+                name = "juventus" ;
                 move.shoot_accuracy = 85 ;
                 move.pass_accuracy = 60 ;
                 move.tackle_accuracy = 87 ;
                 move.dribble_accuracy = 75 ;
                 move.save_accuracy = 90 ;
                 break;
-            }
-                
             case 4 ://team 4 (bayern munich)
-            {
-                name = "bayern munich";
+                name = "bayern munchen" ;
                 move.shoot_accuracy = 95 ;
                 move.pass_accuracy = 70 ;
                 move.tackle_accuracy = 90 ;
                 move.dribble_accuracy = 87 ;
                 move.save_accuracy = 95 ;
                 break;
-            }
             case 5 ://team 5 (PARIS SAINT-GERMAIN)
-            {
-                name = "PARIS SAINT-GERMAIN";
+                name = "PARIS SAINT-GERMAIN" ;
                 move.shoot_accuracy = 90 ;
                 move.pass_accuracy = 63 ;
                 move.tackle_accuracy = 86 ;
                 move.dribble_accuracy = 93 ;
                 move.save_accuracy = 85 ;
                 break;
-            }
             default:
                 break;
 
@@ -160,13 +161,19 @@ class team
         else
             GEMS+=5;
     }
+    // printer
+    
+//    void print()
+//    {
+//        cout << name << endl;
+//    }
     
     string name_getter(){return name;}
     
-//    void name_setter(string *a)
-//    {
-//        name = *a ;
-//    }
+    void name_setter(string a)
+    {
+        name = a ;
+    }
     
     void goal_setter(){goals++;}
     
@@ -176,7 +183,7 @@ class team
     
     private :
     
-    string name ;
+    string name  ;
     movements move ;
     bool first = false ;
     int GEMS = 0 ;
@@ -189,107 +196,148 @@ class team
 //movements functions
 bool pass (team player[2],int first, int second)
 {
-    int accuracy ;
+    static int accuracy ;
     char react_move ;
     
     player[first].GEMS-=player[first].move.pass_GEM;
-    
-    cout << player[second].name<<"turn \n\t\t\t\t"<<player[second].GEMS;
-    cout << "\n--------------------------------\n";
-    cout << "press < T > key to tackle or < L > to let ball go ...\n";
-    cout << "--------------------------------\n";
-    
-    cin >> react_move ;
-    
-    if (react_move=='L'||react_move=='l')
-        return true ;
+    if(player[first].GEMS < 0)
+    {
+        cout << "you cannot pass :(  \n\n" ;////
+        player[second].GEMS+=player[second].move.pass_GEM;
+        return false ;
+    }
     else
     {
-        player[second].GEMS-=player[second].move.tackle_GEM;
-        accuracy = (player[first].move.pass_accuracy/2+(100-player[second].move.tackle_accuracy)/2);// change it ..
-        if (rand()%100<=accuracy)
+        cout << player[second].name<<"'s turn \t\t\t\t"<<player[second].GEMS;////
+        cout << "\n--------------------------------\n";
+        cout << "press < T > key to tackle or < L > to let ball go ...\n";
+        cout << "--------------------------------\n";
+        
+        cin >> react_move ;
+        
+        if (react_move=='L'||react_move=='l')
             return true ;
         else
-            return false ;
+        {
+            player[second].GEMS-=player[second].move.tackle_GEM;
+            if(player[second].GEMS < 0){
+                cout << "you cannot tackle :(  \n\n" ;////
+                player[second].GEMS+=player[second].move.tackle_GEM;
+                return true ;
+            }
+            else////
+            {
+            accuracy = (player[first].move.pass_accuracy/2+(100-player[second].move.tackle_accuracy)/2);// change it ..
+            if (rand()%100<=accuracy)
+                return true ;
+            else
+                return false ;
+            }
+        }
     }
 }
 
 bool dribble (team player[2],int first, int second)
 {
-    int accuracy ;
+    static int accuracy ;
     char react_move ;
     
     player[first].GEMS-=player[first].move.dribble_GEM;
-    
-    cout << player[1].name<<"turn \n\t\t\t\t"<<player[second].GEMS;
-    cout << "\n--------------------------------\n";
-    cout << "press < T > key to tackle or < L > to let ball go ...\n";
-    cout << "--------------------------------\n";
-    cin >> react_move ;
-    if (react_move=='L'||react_move=='l')
-        return true ;
+    if(player[first].GEMS < 0)
+    {
+        cout << "you cannot dribble :(  \n\n" ;
+        player[first].GEMS+=player[first].move.dribble_GEM;
+        return false ;
+        
+    }
     else
     {
-        player[second].GEMS-=player[second].move.tackle_GEM;
-        accuracy = (player[first].move.dribble_accuracy/2+(100-player[second].move.tackle_accuracy)/2);// change it ..
-        if (rand()%100<=accuracy)
+        cout << player[1].name<<"'s turn \t\t\t\t gems = "<<player[second].GEMS;////
+        cout << "\n--------------------------------\n";
+        cout << "press < T > key to tackle or < L > to let ball go ...\n";
+        cout << "--------------------------------\n";
+        cin >> react_move ;
+        if (react_move=='L'||react_move=='l')
             return true ;
         else
-            return false ;
+        {
+            player[second].GEMS-=player[second].move.tackle_GEM;
+            if(player[second].GEMS < 0){
+                cout << "you cannot tackle :(  \n\n" ;////
+                return true ;
+            }
+            else
+            {
+                accuracy = (player[first].move.dribble_accuracy/2+(100-player[second].move.tackle_accuracy)/2);// change it ..
+                if (rand()%100<=accuracy)
+                    return true ;
+                else
+                    return false ;
+            }
+        }
     }
 }
 
 bool shoot (team player[2],int first, int second)
 {
-    int accuracy ;
+    static int accuracy ;
     char react_move ;
     
     player[first].GEMS-=player[first].move.shoot_GEM;
     
-    cout << player[second].name<<"turn \n\t\t\t\t"<<player[second].GEMS;
-    cout << "\n--------------------------------\n";
-    cout << "press < S > key to save ...\n";
-    cout << "--------------------------------\n";
-    
-    cin >> react_move ;
-    
-    if (react_move!='S'||react_move=='s')
+    if(player[first].GEMS < 0)
     {
-        player[second].GEMS-=player[second].move.save_GEM;
-        accuracy = (player[first].move.shoot_accuracy/2+(100-player[second].move.save_accuracy)/2);// change it ..
+        cout << "you cannot shoot :( \n\n" ;
+        player[first].GEMS+=player[first].move.shoot_GEM;
+        return false;
+    }
+    else
+    {
+        cout << player[second].name<<"'s turn \t\t\t\t gems = "<<player[second].GEMS;
+        cout << "\n--------------------------------\n";
+        cout << "press < S > key to save ...\n";
+        cout << "--------------------------------\n";
         
-        if (rand()%100<=accuracy)
-            return true ;
+        cin >> react_move ;
+        
+        if (react_move=='S'||react_move=='s')
+        {
+            player[second].GEMS-=player[second].move.save_GEM;
+            if(player[second].GEMS < 0)
+            {
+                player[second].GEMS+=player[second].move.save_GEM;
+                cout << "you cannot save :(  \n\n" ;
+                  if (rand()%100<=(player[first].move.shoot_accuracy))
+                    return true ;
+                else
+                    return false ;
+            }
+            accuracy = (player[first].move.shoot_accuracy/2+(100-player[second].move.save_accuracy)/2);// change it ..
+            
+            
+            if (rand()%100<=accuracy)
+                return true ;
+            else
+                return false ;
+        }
         else
-            return false ;
-    }
-    else
-    {
-        if (rand()%100<=(player[first].move.shoot_accuracy))
-            return true ;
-        else
-            return false ;
+        {
+            if (rand()%100<=(player[first].move.shoot_accuracy))
+                return true ;
+            else
+                return false ;
+        }
     }
 }
 
-void selecting_team (team player_team)
-{
-
-    int input ;
-    cin >> input ;
-    if ( input==6)
-        cin >> player_team ;
-    else
-        player_team.complete(input);
-}
 
 istream &operator >> (istream &input , team &player_team )
 {
-    int chose ;
-    input >> player_team.name ;
+    int choose ;
+   input >> player_team.name ;
     cout << "--------\n";// three option
-    input >> chose ;
-    player_team.move.default_accuracy(chose);
+    input >> choose ;
+    player_team.move.default_accuracy(choose);
     return input ;
 }
 
@@ -305,24 +353,26 @@ int main()
     srand(time(0));
     
     string menu ;
+    int input_team_num ;
     int first ;
     int second ;
     int stage ;
     int round ;
     char input ;
     char movement ;
+    string entre ;
     
     team player_team[2];// player 1 : player_team[0] , player 2 : player_team[1]
     
     // explaining the game
-    cout << "\n\t\t\tWELCOME TO GEMBALL\n\nTo receive instruction press 9 otherwise press any key..\n\n";
-    
+    cout << "\n\t\t\tWELCOME TO GEMBALL\n\nTo receive instruction press 9 otherwise press any key and entre ..\n";
     cin >> menu ;
-
     if (menu == "9")
     {
         cout << "-----\n";// the instuction
-        cin >> menu ;
+        cout << "press entre to continue\n";
+        cin.ignore();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n' );
     }
     do
     {
@@ -333,19 +383,29 @@ int main()
         cout << "\n\n\t1.Real madrid           authority : defend        overall : 87%";// change the overall
         cout << "\n\n\t2.Fc barcelona          authority : attack        overall : 83%";
         cout << "\n\n\t3.Juventus              authority : defend        overall : 84%";
-        cout << "\n\n\t4.Bayern munich         authority : defend        overall : 92%";
+        cout << "\n\n\t4.Bayern munchen         authority : defend        overall : 92%";////
         cout << "\n\n\t5.Paris saint-germain   authority : attack        overall : 88%";
         cout << "\n\n\t6.My own team \n\n";
         
-        cout << "Chose the first team (player 1)\n";
-        selecting_team ( player_team[0]) ;
-//        cout << player_team[0].name_getter() << endl;
-        cout << "Chose the second team (player 2)\n";
-        selecting_team ( player_team[1]) ;
-//        cout << player_team[1].name_getter() << endl;
+        cout << "Choose the first team (player 1)\n";
         
-        cout << "Press entre to START\n";
-        cin >> menu ;
+        cin >> input_team_num ;
+        if ( input_team_num == 6)
+            cin >> player_team[0] ;
+        else
+            player_team[0].complete(input_team_num);
+        
+        
+        cout << "Choose the second team (player 2)\n";
+        cin >> input_team_num ;
+        if ( input_team_num ==6)
+            cin >> player_team[1] ;
+        else
+            player_team[1].complete(input_team_num);
+        
+        cin.ignore();
+        cout << "Press entre to START\n" ;
+        cin.ignore(numeric_limits<streamsize>::max(), '\n' );
         
         if (rand()%2 == 0)
         {
@@ -373,21 +433,21 @@ int main()
                 cout <<"player1 ("<< player_team[0].name_getter()<<") got "<<player_team[0].GEM_getter()<<" gems \n";
                 cout <<"player2 ("<< player_team[1].name_getter()<<") got "<<player_team[1].GEM_getter()<<" gems \n";
                 
-                    for ( stage = 1 ; stage<=4 ; stage++ )
+                    for ( stage = 1 ; stage<=6 ; stage++ )
                     {
-                        cout << "stage : "<< stage << endl;
-                        if (stage == 4)// shoooot stage :)
+                        cout << "\t\t\tstage : "<< stage << endl;
+                        if (stage == 6)// shoooot stage :)
                         {
-                            cout << player_team[first].name_getter()<<"turn \t\t\t\t"<<player_team[first].GEM_getter();
-                            cout << "\n--------------------------------\n";
-                            cout << "Press < S > to shoot.. \n";
-                            cout << "--------------------------------\n";
+                            cout << player_team[first].name_getter()<<"'s turn \t\t\t\t gems = "<<player_team[first].GEM_getter();////
+                            cout << "\n---------------------------------------\n";
+                            cout << "Press < S > to shoot , if you press other key , you 'll lose the ball.. \n";////
+                            cout << "-----------------------------------------\n";
                             
                             cin >> movement ;// first player move
                             if ( movement == 'S' || movement == 's' )
                             {
                                 if (shoot(player_team, first, second)==false)
-                                    cout << player_team[second].name_getter()<<" save the ball .. \n";
+                                    cout << player_team[second].name_getter()<<"\n saved the ball .. \n";
                     
                                 else
                                 {
@@ -395,12 +455,13 @@ int main()
                                     cout << "\n\n\t\tGOOOOOOOOOOOOOOOOOOOOOL\n\n";
                                 }
                             }
+                            
                             break;
                         }
-                        cout << player_team[first].name_getter()<<"turn \t\t\t\t"<<player_team[first].GEM_getter();
-                        cout << "\n--------------------------------\n";
-                        cout << "Press < P > to pass or < D > to dribble \n";
-                        cout << "--------------------------------\n";
+                        cout << player_team[first].name_getter()<<"'s turn \t\t\t\t gems = "<<player_team[first].GEM_getter();////
+                        cout << "\n-----------------------------------------\n";
+                        cout << "Press < P > to pass or < D > to dribble , if you press other key , you 'll lose the ball \n"; ////
+                        cout << "-----------------------------------------\n";
                         
                         cin >> movement ;// first player move
                         
@@ -409,25 +470,29 @@ int main()
                             if( pass(player_team,first,second) == false )
                             {
                                 change(&first,&second);
-        //                        stage = 1 ;
                             }
                         }
-                        else if (movement == 'D' || movement == 'd')
+                        else
                         {
-                            if( dribble(player_team,first,second) == false )
+                            if (movement == 'D' || movement == 'd')
                             {
-                                change(&first,&second);
-        //                        stage = 1 ;
+                                if( dribble(player_team,first,second) == false )
+                                {
+                                    change(&first,&second);
+                                }
+                            }
+                            else
+                            {
+                            change(&first,&second);
                             }
                         }
-                        
                     }
-                change(&first,&second);
+                //change(&first,&second);
                 
                 cout << player_team[0].name_getter() << "\t" <<player_team[0].goal_getter()<<"\t-\t";
                 cout << player_team[1].goal_getter() << "\t" <<player_team[1].name_getter()<<endl;
                 
-                cout << "ROUND " << round << " finished \npree < C > to continue \n";
+                cout << "ROUND " << round << " finished \npress < C > to continue \n";
                 cin >> movement ;
             }
             if (player_team[0].goal_getter()>player_team[1].goal_getter())
@@ -450,4 +515,3 @@ int main()
     
     return 0;
 }
-
