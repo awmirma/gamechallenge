@@ -26,11 +26,7 @@ class team // each team in the game
     
     int goal_getter(){return goals;} // shows the goals that each team has scored
     
-<<<<<<< HEAD
     int GEM_getter(){return GEMS;} // shows the gems that each team has
-=======
-    int GEM_getter(){return GEMS;} // shows the gems that each team has 
->>>>>>> f059ccb569008727654452fe11a239c4c2d4bc97
     
     void goal_setter(){goals++;} // setting the goal that is being scored
     
@@ -38,11 +34,7 @@ class team // each team in the game
     
     string name  ;
     movements move ; // movements of each team
-<<<<<<< HEAD
     int GEMS = 0 ;
-=======
-    int GEMS = 0 ; 
->>>>>>> f059ccb569008727654452fe11a239c4c2d4bc97
     int goals = 0 ;
     
 };

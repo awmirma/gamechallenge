@@ -8,11 +8,7 @@ using namespace  std;
 
 team::team () // constructor
 {
-<<<<<<< HEAD
     // initializing the attribute of each team
-=======
-	// initializing the attribute of each team
->>>>>>> f059ccb569008727654452fe11a239c4c2d4bc97
     GEMS = 0 ;
     goals  = 0;
     move.shoot_accuracy = 0 ;
