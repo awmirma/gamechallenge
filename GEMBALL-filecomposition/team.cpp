@@ -1,12 +1,14 @@
 
+
 #include "team.h"
 
 #include <iostream>
 using namespace  std;
 
 
-team::team ()// constructor
+team::team () // constructor
 {
+	// initializing the attribute of each team
     GEMS = 0 ;
     goals  = 0;
     move.shoot_accuracy = 0 ;
@@ -17,11 +19,11 @@ team::team ()// constructor
 }
 
 
-void team::complete (int team_number)
+void team::complete (int team_number) // sets each team with its attributes' accuracy
 {
     switch ( team_number )
     {
-        case 1 ://team 1 (REAL MADRID)
+        case 1 : //team 1 (REAL MADRID)
             name = "REAL MADRID" ;
             move.shoot_accuracy = 88 ;
             move.pass_accuracy = 65 ;
@@ -29,7 +31,7 @@ void team::complete (int team_number)
             move.dribble_accuracy = 80 ;
             move.save_accuracy = 89 ;
             break;
-        case 2 ://team 2 (FC BARCELONA)
+        case 2 : //team 2 (FC BARCELONA)
             name = "FC BARCELONA" ;
             move.shoot_accuracy = 82 ;
             move.pass_accuracy = 66 ;
@@ -37,7 +39,7 @@ void team::complete (int team_number)
             move.dribble_accuracy = 85 ;
             move.save_accuracy = 90 ;
             break;
-        case 3 ://team 3 (juventus)
+        case 3 : //team 3 (juventus)
             name = "juventus" ;
             move.shoot_accuracy = 85 ;
             move.pass_accuracy = 60 ;
@@ -45,7 +47,7 @@ void team::complete (int team_number)
             move.dribble_accuracy = 75 ;
             move.save_accuracy = 90 ;
             break;
-        case 4 ://team 4 (bayern munich)
+        case 4 : //team 4 (bayern munchen)
             name = "bayern munchen" ;
             move.shoot_accuracy = 95 ;
             move.pass_accuracy = 70 ;
@@ -53,7 +55,7 @@ void team::complete (int team_number)
             move.dribble_accuracy = 87 ;
             move.save_accuracy = 95 ;
             break;
-        case 5 ://team 5 (PARIS SAINT-GERMAIN)
+        case 5 : //team 5 (PARIS SAINT-GERMAIN)
             name = "PARIS SAINT-GERMAIN" ;
             move.shoot_accuracy = 90 ;
             move.pass_accuracy = 63 ;
@@ -69,11 +71,10 @@ void team::complete (int team_number)
 
 
 
-void team::add_gems(int round)
+void team::add_gems(int round) // adding gems in the rounds
 {
     if ( round <= 2 )
         GEMS+=10;
     else
         GEMS+=5;
 }
-
